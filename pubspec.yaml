@@ -13,6 +13,11 @@ dependencies:
   esc_pos_utils: ^1.1.0
   # esc_pos_utils:
   # path: ../esc_pos_utils
+
+  intl: ^0.20.2
+  qr_flutter: ^4.1.0
+  path_provider: ^2.1.5
+  oktoast: ^3.4.0
   flutter_bluetooth_basic: ^0.1.7
 
 dev_dependencies:

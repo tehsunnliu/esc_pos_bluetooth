@@ -17,9 +17,10 @@ dependencies:
   # esc_pos_utils:
   # path: ../../../esc_pos_utils
   charset_converter: ^2.0.0
-  intl: ^0.17.0
+  intl: ^0.20.0
   qr_flutter: ^4.0.0
   path_provider: ^2.0.2
+  flutter_bluetooth_basic: ^0.1.7
 
 dev_dependencies:
   flutter_test:

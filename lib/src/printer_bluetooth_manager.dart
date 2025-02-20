@@ -67,7 +67,11 @@ class PrinterBluetoothManager {
     _selectedPrinter = printer;
   }
 
-  Future<PosPrintResult> writeBytes(List<int> bytes) async {
+  Future<PosPrintResult> writeBytes(
+    List<int> bytes, {
+    int chunkSizeBytes = 20,
+    int queueSleepTimeMs = 20,
+  }) async {
     if (_selectedPrinter == null) {
       return Future<PosPrintResult>.value(PosPrintResult.printerNotSelected);
     } else if (_isScanning.value!) {
@@ -77,6 +81,7 @@ class PrinterBluetoothManager {
     }
 
     _isPrinting = true;
+    Completer<PosPrintResult> completer = Completer<PosPrintResult>();
 
     // We have to rescan before connecting, otherwise we can connect only once
     await _bluetoothManager.startScan(timeout: Duration(seconds: 1));
@@ -100,7 +105,7 @@ class PrinterBluetoothManager {
     });
 
     // Printing timeout
-    _runDelayed(timeout).then((dynamic v) async {
+    _runDelayed(Duration(seconds: 5)).then((_) {
       if (_isPrinting) {
         _isPrinting = false;
         completer.complete(PosPrintResult.timeout);
@@ -108,6 +113,10 @@ class PrinterBluetoothManager {
     });
 
     return completer.future;
+  }
+
+  Future<void> _runDelayed(Duration duration) async {
+    await Future.delayed(duration);
   }
 
   Future<PosPrintResult> printTicket(
